@@ -1,0 +1,1 @@
+simple demo for elasticsearch
