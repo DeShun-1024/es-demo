@@ -1,14 +1,10 @@
-package com.example.demo.es;
+package com.example.demo.es.springboot;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.json.JsonpMapper;
 import com.alibaba.fastjson.JSON;
-import org.elasticsearch.client.RestClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 import java.util.List;
 import java.util.Optional;
