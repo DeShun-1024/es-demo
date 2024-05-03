@@ -1,6 +1,9 @@
 package com.example.demo.es.java;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.mapping.KeywordProperty;
+import co.elastic.clients.elasticsearch._types.mapping.Property;
+import co.elastic.clients.elasticsearch._types.mapping.TextProperty;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
 import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
@@ -21,6 +24,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 //@SpringBootTest
 @Slf4j
@@ -48,26 +53,34 @@ class ESCleintTest {
     }
 
 
+    public static Map<String, Property> mapping() {
+        // 文档属性
+        Map<String, Property> propertyMap = new HashMap<>();
+        propertyMap.put("id", new Property(new KeywordProperty.Builder().build()));
+        propertyMap.put("name", new Property(new TextProperty.Builder().build()));
+        propertyMap.put("age", new Property(new KeywordProperty.Builder().build()));
+
+        return propertyMap;
+    }
+
     @Test
     void createdIndex() throws IOException {
+        TypeMapping typeMapping = new TypeMapping.Builder()
+                .properties(mapping())
+                .build();
 
-        CreateIndexRequest.Builder builder = new CreateIndexRequest.Builder();
+        CreateIndexRequest createIndexRequest = new CreateIndexRequest.Builder()
+                .index("index_order_student_2020")
+                .mappings(typeMapping).build();
 
-        TypeMapping.Builder typeBuild = new TypeMapping.Builder();
-
-        TypeMapping mapping = typeBuild.build();
-        mapping.properties();
-
-        builder.index("index_order_student_2020");
-        CreateIndexRequest build = builder.build();
-        CreateIndexResponse createIndexResponse = esClient.indices().create(build);
+        CreateIndexResponse createIndexResponse = esClient.indices().create(createIndexRequest);
 
         log.info("create index result:{}", JSON.toJSONString(createIndexResponse));
     }
 
 
     @Test
-    public void saveDoc(){
+    public void saveDoc() {
 
     }
 }
