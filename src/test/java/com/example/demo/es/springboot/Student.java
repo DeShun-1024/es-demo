@@ -28,6 +28,8 @@ public class Student {
 
     @Field(index = false,type = FieldType.Integer)
     private  Integer age;
+
+    private String interest;
 //
 //    private LocalDateTime birthday;
 }
